@@ -4,6 +4,9 @@
 
 link web: https://collage-nopal.user.cloudjkt01.com
 
+username: admin@mail.com
+pass: 123456
+
 ## Tech Stack
 
 - Framework: Laravel 12
