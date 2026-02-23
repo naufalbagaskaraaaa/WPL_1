@@ -18,9 +18,6 @@ return new class extends Migration
             $table->string('judul', 500);
             $table->string('pengarang', 200);
             $table->integer('idkategori');
-
-            $table->foreign('idkategori')->references('idkategori')
-            ->on('kategori')->onDelete('cascade');
         });
 
         DB::table('buku')->insert([

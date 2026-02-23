@@ -6,6 +6,8 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\BukuController;
 use App\Http\Controllers\PdfController;
+use App\Http\Controllers\Auth\GoogleController;
+use App\Http\Controllers\Auth\OtpController;
 
 Route::redirect('/', '/login');
 
@@ -32,3 +34,9 @@ Route::post('/buku', [BukuController::class, 'store'])
 
 Route::get('/generate-pdf', [PdfController::class, 'generatePDFLandscape'])->name('generate.pdf.landscape');
 Route::get('/generate-undangan', [PdfController::class, 'generatePDFPortrait'])->name('generate.pdf.portrait');
+
+Route::get('/auth/google', [GoogleController::class, 'redirectToGoogle'])->name('google.login');
+Route::get('/auth/google/callback', [GoogleController::class, 'handleGoogleCallback']);
+
+Route::get('auth/verify-otp', [OtpController::class, 'showVerifyForm'])->name('otp.verify');
+Route::post('auth/verify-otp', [OtpController::class, 'verifyOtp'])->name('otp.process');
