@@ -15,6 +15,7 @@ return new class extends Migration
         Schema::create('kategori', function (Blueprint $table) {
             $table->integer('idkategori')->autoIncrement();
             $table->string('nama_kategori', 100);
+            $table->timestamp();
         });
 
         DB::table('kategori')->insert([
@@ -26,6 +27,7 @@ return new class extends Migration
 
     /**
      * Reverse the migrations.
+     * sidder
      */
     public function down(): void
     {

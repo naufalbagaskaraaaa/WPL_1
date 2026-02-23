@@ -5,14 +5,15 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\BukuController;
+use App\Http\Controllers\PdfController;
 
 Route::redirect('/', '/login');
-
-Auth::routes(); 
 
 Route::get('/test', function(){
     return view('test');
 });
+
+Auth::routes(); 
 
 Route::middleware(['auth'])->group(function () {
 Route::get('/dashboard', function () { 
@@ -28,3 +29,6 @@ Route::get('/buku', [BukuController::class, 'create'])
 Route::post('/buku', [BukuController::class, 'store'])
 ->name('buku.store');
 });
+
+Route::get('/generate-pdf', [PdfController::class, 'generatePDFLandscape'])->name('generate.pdf.landscape');
+Route::get('/generate-undangan', [PdfController::class, 'generatePDFPortrait'])->name('generate.pdf.portrait');
