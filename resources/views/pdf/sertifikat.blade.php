@@ -24,7 +24,7 @@
     </style>
 </head>
 <body>
-    <div class="title">SERTIFIKAT</div>
+    <div class="title">SERTIFIKAT_2</div>
     <p>Diberikan kepada :</p>
     
     <div class="nama">{{ $nama }}</div> 

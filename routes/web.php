@@ -8,6 +8,7 @@ use App\Http\Controllers\BukuController;
 use App\Http\Controllers\PdfController;
 use App\Http\Controllers\Auth\GoogleController;
 use App\Http\Controllers\Auth\OtpController;
+use App\Http\Controllers\BarangController;
 
 Route::redirect('/', '/login');
 
@@ -40,3 +41,6 @@ Route::get('/auth/google/callback', [GoogleController::class, 'handleGoogleCallb
 
 Route::get('auth/verify-otp', [OtpController::class, 'showVerifyForm'])->name('otp.verify');
 Route::post('auth/verify-otp', [OtpController::class, 'verifyOtp'])->name('otp.process');
+
+Route::post('barang-cetak', [BarangController::class, 'cetak'])->name('barang.cetak');
+Route::resource('barang', BarangController::class);
