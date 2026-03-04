@@ -13,23 +13,22 @@ class BarangController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $barangs = Barang::all();
+            $barangs = Barang::selectRaw('"id_barang", "nama", "harga", "timestamp"')->get();
 
             return DataTables::of($barangs)
                 ->addColumn('harga_format', function ($barang) {
                     return 'Rp ' . number_format($barang->harga, 0, ',', '.');
                 })
                 ->addColumn('aksi', function ($barang) {
-                    $edit = '<a href="' . route('barang.edit', $barang->id_barang) . '" 
-                                class="btn btn-warning btn-sm">Edit</a>';
+                    $edit = '<a href="' . route('barang.edit', $barang->id_barang) . '" class="btn btn-warning btn-sm">Edit</a>';
 
-                    $hapus = '<form action="' . route('barang.destroy', $barang->id_barang) . '" 
-                                    method="POST" style="display:inline"
-                                    onsubmit="return confirm(\'Yakin hapus data ini?\')">
-                                <input type="hidden" name="_token" value="' . csrf_token() . '">
-                                <input type="hidden" name="_method" value="DELETE">
-                                <button class="btn btn-danger btn-sm">Hapus</button>
-                              </form>';
+                    $hapus = '
+                        <form action="' . route('barang.destroy', $barang->id_barang) . '" method="POST" style="display:inline" onsubmit="return confirm(\'Yakin hapus data ini?\')">
+                            <input type="hidden" name="_token" value="' . csrf_token() . '">
+                            <input type="hidden" name="_method" value="DELETE">
+                            <button class="btn btn-danger btn-sm">Hapus</button>
+                        </form>
+                    ';
 
                     return $edit . ' ' . $hapus;
                 })
@@ -52,20 +51,19 @@ class BarangController extends Controller
             'harga' => 'required|integer|min:0',
         ]);
 
-        DB::table('barang')->insert([
-            'id_barang' => 'TEMP',
+        Barang::create([
             'nama'      => $request->nama,
             'harga'     => $request->harga,
             'timestamp' => now(),
         ]);
 
-        return redirect()->route('barang.index')
-            ->with('success', 'Data berhasil ditambahkan!');
+        return redirect()->route('barang.index')->with('success', 'Data berhasil ditambahkan!');
     }
 
     public function edit(string $id)
     {
         $barang = Barang::findOrFail($id);
+
         return view('barang.edit', compact('barang'));
     }
 
@@ -82,41 +80,35 @@ class BarangController extends Controller
             'harga' => $request->harga,
         ]);
 
-        return redirect()->route('barang.index')
-            ->with('success', 'Data berhasil diupdate!');
+        return redirect()->route('barang.index')->with('success', 'Data berhasil diupdate!');
     }
 
     public function destroy(string $id)
     {
         Barang::findOrFail($id)->delete();
 
-        return redirect()->route('barang.index')
-            ->with('success', 'Data berhasil dihapus!');
+        return redirect()->route('barang.index')->with('success', 'Data berhasil dihapus!');
     }
 
     public function cetak(Request $request)
     {
         $request->validate([
-            'selected'    => 'required|array|min:1',
-            'selected.*'  => 'exists:barang,id_barang',
-            'koordinat_x' => 'required|integer|min:1|max:5',
-            'koordinat_y' => 'required|integer|min:1|max:8',
+            'selected_ids'   => 'required|array|min:1',
+            'selected_ids.*' => 'exists:barang,id_barang',
+            'koordinat_x'    => 'required|integer|min:1|max:5',
+            'koordinat_y'    => 'required|integer|min:1|max:8',
         ], [
-            'selected.required' => 'Pilih minimal 1 data untuk dicetak!',
-            'koordinat_x.max'   => 'Koordinat X maksimal 5 (kolom 1-5)',
-            'koordinat_y.max'   => 'Koordinat Y maksimal 8 (baris 1-8)',
+            'selected_ids.required' => 'Pilih minimal 1 data untuk dicetak!',
+            'selected_ids.min'      => 'Pilih minimal 1 data untuk dicetak!',
+            'koordinat_x.max'       => 'Koordinat X maksimal 5 (kolom 1-5)',
+            'koordinat_y.max'       => 'Koordinat Y maksimal 8 (baris 1-8)',
         ]);
 
-        $barangs = Barang::whereIn('id_barang', $request->selected)->get()->toArray();
+        $barangs = Barang::whereIn('id_barang', $request->selected_ids)->get()->toArray();
 
-        $offset = ($request->koordinat_y - 1) * 5 + ($request->koordinat_x - 1);
-
-        $semuaLabel = array_merge(
-            array_fill(0, $offset, null),
-            $barangs
-        );
-
-        $halaman = array_chunk($semuaLabel, 40);
+        $offset     = ($request->koordinat_y - 1) * 5 + ($request->koordinat_x - 1);
+        $semuaLabel = array_merge(array_fill(0, $offset, null), $barangs);
+        $halaman    = array_chunk($semuaLabel, 40);
 
         foreach ($halaman as $i => $h) {
             while (count($halaman[$i]) < 40) {
@@ -128,9 +120,14 @@ class BarangController extends Controller
             'halaman' => $halaman,
             'x'       => $request->koordinat_x,
             'y'       => $request->koordinat_y,
-        ]);
+        ])->setPaper('A4', 'portrait');
 
-        $pdf->setPaper('A4', 'portrait');
+         // dd([
+         //   'x'      => $request->koordinat_x,
+           // 'y'      => $request->koordinat_y,
+            //'offset' => $offset,
+           // 'total_null' => count(array_filter($semuaLabel, fn($l) => is_null($l))),
+        //]);
 
         return $pdf->stream('tag-harga.pdf');
     }

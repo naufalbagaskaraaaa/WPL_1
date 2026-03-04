@@ -15,21 +15,17 @@
             padding: 0;
         }
 
-        /* ✅ Tiap halaman = 1 lembar kertas A4 */
         .halaman {
             width: 210mm;
             height: 297mm;
-            padding: 9mm 4mm;
-            /* Page break antar halaman */
+            padding: 5mm 3mm;
             page-break-after: always;
         }
 
-        /* Halaman terakhir tidak perlu page break */
         .halaman:last-child {
             page-break-after: avoid;
         }
 
-        /* Gunakan <table> HTML biasa — lebih reliable di DomPDF */
         .grid-label {
             width: 100%;
             border-collapse: collapse;
@@ -38,22 +34,19 @@
 
         .grid-label td {
             width: 20%;
-            /* 100% / 5 kolom */
-            height: 34mm;
+            height: 36mm;
             vertical-align: middle;
             text-align: center;
             padding: 3px;
             border: 0.3px dashed #ccc;
-            /* Hapus saat sudah pas */
         }
 
-        /* Label berisi data */
         .label-isi {
             font-family: Arial, sans-serif;
         }
 
         .label-nama {
-            font-size: 8pt;
+            font-size: 7pt;
             font-weight: bold;
             margin-bottom: 3px;
             word-wrap: break-word;
@@ -62,16 +55,16 @@
         .label-id {
             font-size: 6pt;
             color: #555;
-            margin-bottom: 4px;
+            margin-bottom: 3px;
         }
 
         .label-harga {
-            font-size: 12pt;
+            font-size: 10pt;
             font-weight: bold;
         }
 
         .label-rp {
-            font-size: 7pt;
+            font-size: 6pt;
             font-weight: normal;
         }
     </style>
@@ -79,16 +72,11 @@
 
 <body>
 
-    {{-- ✅ Loop tiap halaman --}}
     @foreach($halaman as $indexHalaman => $labels)
-
     <div class="halaman">
         <table class="grid-label">
 
-            <?php
-            // Bagi 40 label menjadi 8 baris x 5 kolom
-            $baris = array_chunk($labels, 5);
-            ?>
+            <?php $baris = array_chunk($labels, 5); ?>
 
             @foreach($baris as $row)
             <tr>
@@ -96,11 +84,9 @@
                     <?php $label = $row[$i] ?? null; ?>
 
                     @if(is_null($label))
-                    {{-- Slot kosong --}}
                     <td>
                     </td>
                     @else
-                    {{-- Slot berisi data barang --}}
                     <td class="label-isi">
                         <div class="label-nama">{{ $label['nama'] }}</div>
                         <div class="label-id">{{ $label['id_barang'] }}</div>
@@ -110,14 +96,12 @@
                         </div>
                     </td>
                     @endif
-
                     @endfor
             </tr>
             @endforeach
 
         </table>
     </div>
-
     @endforeach
 
 </body>

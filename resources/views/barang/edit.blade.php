@@ -1,48 +1,47 @@
-<!DOCTYPE html>
-<html lang="id">
+@extends('layouts.main')
+@section('content')
+<div class="card">
+    <div class="card-body">
+        <h4 class="card-title">Edit Barang</h4>
+        <p class="card-description">Silakan ubah data barang</p>
 
-<head>
-    <meta charset="UTF-8">
-    <title>Edit Barang</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
-
-<body class="p-4">
-    <div class="container" style="max-width:500px">
-        <h2 class="mb-4">✏️ Edit Barang</h2>
-
-        <form action="{{ route('barang.update', $barang->id_barang) }}" method="POST">
+        <form class="forms-sample" action="{{ route('barang.update', $barang->id_barang) }}" method="POST">
             @csrf
             @method('PUT')
 
-            <div class="mb-3">
-                <label class="form-label">ID Barang</label>
-                <input type="text" class="form-control"
+            <div class="form-group">
+                <label for="id_barang">ID Barang</label>
+                <input type="text" class="form-control" id="id_barang"
                     value="{{ $barang->id_barang }}" disabled>
             </div>
 
-            <div class="mb-3">
-                <label class="form-label">Nama Barang</label>
-                <input type="text" name="nama" class="form-control"
+            <div class="form-group">
+                <label for="nama">Nama Barang</label>
+                <input type="text" class="form-control @error('nama') is-invalid @enderror"
+                    id="nama" name="nama" placeholder="Ketik nama barangnya di sini..."
                     value="{{ old('nama', $barang->nama) }}" required>
                 @error('nama')
                 <small class="text-danger">{{ $message }}</small>
                 @enderror
             </div>
 
-            <div class="mb-3">
-                <label class="form-label">Harga (Rp)</label>
-                <input type="number" name="harga" class="form-control"
+            <div class="form-group">
+                <label for="harga">Harga</label>
+                <input type="number" class="form-control @error('harga') is-invalid @enderror"
+                    id="harga" name="harga" placeholder="Berapa harganya?"
                     value="{{ old('harga', $barang->harga) }}" min="0" required>
                 @error('harga')
                 <small class="text-danger">{{ $message }}</small>
                 @enderror
             </div>
 
-            <button type="submit" class="btn btn-warning">Update</button>
-            <a href="{{ route('barang.index') }}" class="btn btn-secondary">Batal</a>
+            <button type="submit" class="btn btn-gradient-primary me-2">
+                Update
+            </button>
+            <a href="{{ route('barang.index') }}" class="btn btn-light">
+                Batal
+            </a>
         </form>
     </div>
-</body>
-
-</html>
+</div>
+@endsection
