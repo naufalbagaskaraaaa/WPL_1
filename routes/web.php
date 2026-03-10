@@ -47,4 +47,16 @@ Route::middleware(['auth'])->group(function () {
     });
     Route::post('barang/cetak', [BarangController::class, 'cetak'])->name('barang.cetak');
     Route::resource('barang', BarangController::class)->except(['show']);
+
+    Route::get('/modul_4/tabel', function () {
+        return view('modul_4.tabel');
+    })->name('modul_4.tabel');
+
+    Route::get('/modul_4/datatables', function () {
+        return view('modul_4.datatables');
+    })->name('modul_4.datatables');
+
+    Route::get('/modul_4/select', function () {
+        return view('modul_4.select');
+    })->name('modul_4.select');
 });

@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="id">
-
 <head>
     <meta charset="UTF-8">
     <style>
@@ -46,25 +45,25 @@
         }
 
         .label-nama {
-            font-size: 7pt;
+            font-size: 9pt;
             font-weight: bold;
             margin-bottom: 3px;
             word-wrap: break-word;
         }
 
         .label-id {
-            font-size: 6pt;
+            font-size: 7pt;
             color: #555;
             margin-bottom: 3px;
         }
 
         .label-harga {
-            font-size: 10pt;
+            font-size: 13pt;
             font-weight: bold;
         }
 
         .label-rp {
-            font-size: 6pt;
+            font-size: 8pt;
             font-weight: normal;
         }
     </style>

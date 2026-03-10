@@ -37,13 +37,13 @@
               <form class="pt-3" method="POST" action="{{ route('login') }}">
                 @csrf
                 <div class="form-group">
-                  <input type="email" name="email" class="form-control form-control-lg" id="exampleInputEmail1" placeholder="Username">
+                  <input type="email" name="email" class="form-control form-control-lg" id="exampleInputEmail1" placeholder="Username" required>
                 </div>
                 @error('email')
                 <span class="text-danger">{{ $message }}</span>
                 @enderror
                 <div class="form-group">
-                  <input type="password" name="password" class="form-control form-control-lg" id="exampleInputPassword1" placeholder="Password">
+                  <input type="password" name="password" class="form-control form-control-lg" id="exampleInputPassword1" placeholder="Password" required>
                 </div>
                 <div class="mt-3 d-grid gap-2">
                   <button type="submit" class="btn btn-block btn-gradient-primary btn-lg font-weight-medium auth-form-btn">
@@ -59,7 +59,7 @@
                 <div class="my-2 d-flex justify-content-between align-items-center">
                   <div class="form-check">
                     <label class="form-check-label text-muted">
-                      <input type="checkbox" class="form-check-input"> Keep me signed in </label>
+                      <input type="checkbox" class="form-check-input" > Keep me signed in </label>
                   </div>
                   <a href="#" class="auth-link text-primary">Forgot password?</a>
                 </div>

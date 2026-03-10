@@ -88,14 +88,39 @@
               Buat Label Barang
             </a>
           </li>
+        </ul>
+      </div>
+    </li>
 
-          <!--<li class="nav-item">
-                <a class="nav-link {{ request()->routeIs('barang.cetak') ? 'active' : '' }}"
-                    href="{{ route('barang.cetak') }}">
-                    Cetak PDF Label Barang
-                </a>
-            </li>-->
+    <li class="nav-item">
+      <a class="nav-link" data-bs-toggle="collapse" href="#menu-modul-4"
+        aria-expanded="{{ request()->routeIs('modul_4.*') ? 'true' : 'false' }}"
+        aria-controls="menu-modul-4">
+        <span class="menu-title">Modul 4</span>
+        <i class="menu-arrow"></i>
+        <i class="mdi mdi-code-tags menu-icon"></i>
+      </a>
 
+      <div class="collapse {{ request()->routeIs('modul_4.*') ? 'show' : '' }}" id="menu-modul-4">
+        <ul class="nav flex-column sub-menu">
+          <li class="nav-item">
+            <a class="nav-link {{ request()->routeIs('modul_4.tabel') ? 'active' : '' }}"
+              href="{{ route('modul_4.tabel') }}">
+              Tabel
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link {{ request()->routeIs('modul_4.datatables') ? 'active' : '' }}"
+              href="{{ route('modul_4.datatables') }}">
+              DataTables
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link {{ request()->routeIs('modul_4.select') ? 'active' : '' }}"
+              href="{{ route('modul_4.select') }}">
+              Select
+            </a>
+          </li>
         </ul>
       </div>
     </li>
