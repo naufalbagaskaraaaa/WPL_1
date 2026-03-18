@@ -110,6 +110,7 @@
 
             $("#input-nama").val("");
             $("#input-harga").val("");
+
             setTimeout(function() {
                 tombol.prop("disabled", false);
                 tombol.html("Submit");
