@@ -9,6 +9,7 @@ use App\Http\Controllers\PdfController;
 use App\Http\Controllers\Auth\GoogleController;
 use App\Http\Controllers\Auth\OtpController;
 use App\Http\Controllers\BarangController;
+use App\Http\Controllers\WilayahController;
 
 Route::redirect('/', '/login');
 
@@ -59,4 +60,18 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/modul_4/select', function () {
         return view('modul_4.select');
     })->name('modul_4.select');
+
+    Route::get('/wilayah/provinces', [WilayahController::class, 'getProvinces'])->name('wilayah.provinces');
+    Route::get('/wilayah/regencies/{id_provinsi}', [WilayahController::class, 'getRegencies'])->name('wilayah.regencies');
+    Route::get('/wilayah/districts/{id_kota}', [WilayahController::class, 'getDistricts'])->name('wilayah.districts');
+    Route::get('/wilayah/villages/{id_kecamatan}', [WilayahController::class, 'getVillages'])->name('wilayah.villages');
+
+    // Tugas Wilayah: View
+    Route::get('/wilayah/jquery', function () {
+        return view('wilayah.jquery');
+    })->name('wilayah.jquery');
+
+    Route::get('/wilayah/axios', function () {
+        return view('wilayah.axios');
+    })->name('wilayah.axios');
 });

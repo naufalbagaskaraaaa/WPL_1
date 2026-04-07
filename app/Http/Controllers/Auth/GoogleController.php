@@ -36,7 +36,7 @@ class GoogleController extends Controller
             }
 
             $otp = strtoupper(Str::random(6));
- 
+
             $user->update(['otp' => $otp]);
 
             Mail::to($user->email)->send(new SendOtpMail($otp));
