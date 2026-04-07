@@ -35,7 +35,7 @@
       </a>
     </li>
 
-    <li class="nav-item">
+    <li class="nav-item {{ request()->routeIs('generate.pdf.*') ? 'active' : '' }}">
       <a class="nav-link" data-bs-toggle="collapse" href="#menu-pdf"
         aria-expanded="{{ request()->routeIs('generate.pdf.*') ? 'true' : 'false' }}"
         aria-controls="menu-pdf">
@@ -64,7 +64,7 @@
       </div>
     </li>
 
-    <li class="nav-item">
+    <li class="nav-item {{ request()->routeIs('barang.*') ? 'active' : '' }}">
       <a class="nav-link" data-bs-toggle="collapse" href="#menu-barang"
         aria-expanded="{{ request()->routeIs('barang.*') ? 'true' : 'false' }}"
         aria-controls="menu-barang">
@@ -92,7 +92,7 @@
       </div>
     </li>
 
-    <li class="nav-item">
+    <li class="nav-item {{ request()->routeIs('modul_4.*') ? 'active' : '' }}">
       <a class="nav-link" data-bs-toggle="collapse" href="#menu-modul-4"
         aria-expanded="{{ request()->routeIs('modul_4.*') ? 'true' : 'false' }}"
         aria-controls="menu-modul-4">
@@ -119,6 +119,60 @@
             <a class="nav-link {{ request()->routeIs('modul_4.select') ? 'active' : '' }}"
               href="{{ route('modul_4.select') }}">
               Select
+            </a>
+          </li>
+        </ul>
+      </div>
+    </li>
+
+    <li class="nav-item {{ request()->routeIs('wilayah.*') ? 'active' : '' }}">
+      <a class="nav-link" data-bs-toggle="collapse" href="#menu-wilayah"
+        aria-expanded="{{ request()->routeIs('wilayah.*') ? 'true' : 'false' }}"
+        aria-controls="menu-wilayah">
+        <span class="menu-title">Data Wilayah</span>
+        <i class="menu-arrow"></i>
+        <i class="mdi mdi-map-marker menu-icon"></i>
+      </a>
+
+      <div class="collapse {{ request()->routeIs('wilayah.*') ? 'show' : '' }}" id="menu-wilayah">
+        <ul class="nav flex-column sub-menu">
+          <li class="nav-item">
+            <a class="nav-link {{ request()->routeIs('wilayah.axios') ? 'active' : '' }}"
+              href="{{ route('wilayah.axios') }}">
+              Axios
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link {{ request()->routeIs('wilayah.jquery') ? 'active' : '' }}"
+              href="{{ route('wilayah.jquery') }}">
+              jQuery
+            </a>
+          </li>
+        </ul>
+      </div>
+    </li>
+
+    <li class="nav-item {{ request()->routeIs('pos.*') ? 'active' : '' }}">
+      <a class="nav-link" data-bs-toggle="collapse" href="#menu-pos"
+        aria-expanded="{{ request()->routeIs('pos.*') ? 'true' : 'false' }}"
+        aria-controls="menu-pos">
+        <span class="menu-title">POS</span>
+        <i class="menu-arrow"></i>
+        <i class="mdi mdi-cart-outline menu-icon"></i>
+      </a>
+
+      <div class="collapse {{ request()->routeIs('pos.*') ? 'show' : '' }}" id="menu-pos">
+        <ul class="nav flex-column sub-menu">
+          <li class="nav-item">
+            <a class="nav-link {{ request()->routeIs('pos.axios') ? 'active' : '' }}"
+              href="{{ route('pos.axios') }}">
+              Axios
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link {{ request()->routeIs('pos.jquery') ? 'active' : '' }}"
+              href="{{ route('pos.jquery') }}">
+              jQuery
             </a>
           </li>
         </ul>
