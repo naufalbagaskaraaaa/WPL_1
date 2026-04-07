@@ -7,22 +7,18 @@ use Illuminate\Support\Facades\DB;
 
 class PosController extends Controller
 {
-    // Halaman versi jQuery
     public function indexJquery()
     {
         return view('pos.jquery');
     }
 
-    // Halaman versi Axios
     public function indexAxios()
     {
         return view('pos.axios');
     }
 
-    // Mencari data barang berdasarkan ID/Kode
     public function cariBarang($id_barang)
     {
-        // Cari data barang di tabel barang
         $barang = DB::table('barang')->where('id_barang', $id_barang)->first();
         
         if ($barang) {
@@ -34,7 +30,6 @@ class PosController extends Controller
             ]);
         }
 
-        // Return error 404 jika barang tidak ditemukan
         return response()->json([
             'status' => 'error',
             'code' => 404,
@@ -43,7 +38,6 @@ class PosController extends Controller
         ], 404);
     }
 
-    // Menyimpan data Penjualan ke 2 tabel secara bersamaan (Database Transaction)
     public function simpanTransaksi(Request $request)
     {
         $items = $request->input('items', []);
@@ -61,13 +55,11 @@ class PosController extends Controller
         DB::beginTransaction();
 
         try {
-            // 1. Simpan ke tabel penjualan dan ambil ID/Penjualan-nya
             $id_penjualan = DB::table('penjualan')->insertGetId([
                 'timestamp' => now(), 
                 'total' => $total
             ], 'id_penjualan');
 
-            // 2. Loop dan simpan ke tabel penjualan_detail
             foreach ($items as $item) {
                 DB::table('penjualan_detail')->insert([
                     'id_penjualan' => $id_penjualan,
@@ -77,7 +69,6 @@ class PosController extends Controller
                 ]);
             }
 
-            // Validasi semuanya dan eksekusi
             DB::commit();
 
             return response()->json([
@@ -90,7 +81,6 @@ class PosController extends Controller
             ]);
 
         } catch (\Exception $e) {
-            // Batalkan semua query jika terjadi error (tidak ada data setengah jadi)
             DB::rollBack();
             return response()->json([
                 'status' => 'error',

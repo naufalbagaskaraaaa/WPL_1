@@ -11,13 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        // 1. Tabel Provinsi (provinces)
         Schema::create('provinces', function (Blueprint $table) {
             $table->char('id', 2)->primary();
             $table->string('name', 255);
         });
 
-        // 2. Tabel Kota/Kabupaten (regencies)
         Schema::create('regencies', function (Blueprint $table) {
             $table->char('id', 4)->primary();
             $table->char('province_id', 2);
@@ -30,7 +28,6 @@ return new class extends Migration
                   ->onDelete('cascade');
         });
 
-        // 3. Tabel Kecamatan (districts)
         Schema::create('districts', function (Blueprint $table) {
             $table->char('id', 7)->primary();
             $table->char('regency_id', 4);
@@ -43,7 +40,6 @@ return new class extends Migration
                   ->onDelete('cascade');
         });
 
-        // 4. Tabel Kelurahan/Desa (villages)
         Schema::create('villages', function (Blueprint $table) {
             $table->char('id', 10)->primary();
             $table->char('district_id', 7);

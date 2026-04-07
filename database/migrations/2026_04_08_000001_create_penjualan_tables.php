@@ -11,14 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        // Tabel Penjualan
         Schema::create('penjualan', function (Blueprint $table) {
             $table->increments('id_penjualan'); // int4 PK dengan auto-increment
             $table->timestamp('timestamp');
             $table->integer('total');
         });
 
-        // Tabel Penjualan Detail
         Schema::create('penjualan_detail', function (Blueprint $table) {
             $table->increments('idpenjualan_detail'); // int4 PK dengan auto-increment
             $table->integer('id_penjualan');
@@ -26,7 +24,6 @@ return new class extends Migration
             $table->smallInteger('jumlah');
             $table->integer('subtotal');
 
-            // Foreign keys
             $table->foreign('id_penjualan')->references('id_penjualan')->on('penjualan')->onDelete('cascade');
             $table->foreign('id_barang')->references('id_barang')->on('barang')->onDelete('cascade');
         });
