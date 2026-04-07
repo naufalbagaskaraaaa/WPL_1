@@ -187,7 +187,10 @@
 
                 if (!kode) return;
 
-                axios.get("/api/barang/" + kode)
+                axios({
+                    method: 'GET',
+                    url: "/api/barang/" + kode
+                })
                     .then(function(response) {
                         if (response.data.status === 'success') {
                             let dataBarang = response.data.data;

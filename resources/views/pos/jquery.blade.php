@@ -179,7 +179,7 @@
 
                 $.ajax({
                     url: "/api/barang/" + kode,
-                    method: "GET",
+                    type: "GET",
                     success: function(response) {
                         if (response.status === 'success') {
                             let dataBarang = response.data;
@@ -311,7 +311,7 @@
 
             $.ajax({
                 url: "{{ route('api.penjualan.store') }}",
-                method: "POST",
+                type: "POST",
                 data: {
                     _token: "{{ csrf_token() }}",
                     items: cart,
