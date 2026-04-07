@@ -10,6 +10,7 @@ use App\Http\Controllers\Auth\GoogleController;
 use App\Http\Controllers\Auth\OtpController;
 use App\Http\Controllers\BarangController;
 use App\Http\Controllers\WilayahController;
+use App\Http\Controllers\PosController;
 
 Route::redirect('/', '/login');
 
@@ -74,4 +75,10 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/wilayah/axios', function () {
         return view('wilayah.axios');
     })->name('wilayah.axios');
+
+    // Tugas POS (Kasir)
+    Route::get('/pos/jquery', [PosController::class, 'indexJquery'])->name('pos.jquery');
+    Route::get('/pos/axios', [PosController::class, 'indexAxios'])->name('pos.axios');
+    Route::get('/api/barang/{id_barang}', [PosController::class, 'cariBarang'])->name('api.barang.get');
+    Route::post('/api/penjualan', [PosController::class, 'simpanTransaksi'])->name('api.penjualan.store');
 });
