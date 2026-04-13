@@ -104,7 +104,19 @@ class BarangController extends Controller
             'koordinat_y.max'       => 'Koordinat Y maksimal 8 (baris 1-8)',
         ]);
 
-        $barangs = Barang::whereIn('id_barang', $request->selected_ids)->get()->toArray();
+        $barangsData = Barang::whereIn('id_barang', $request->selected_ids)->get();
+
+        $generator = new \Picqer\Barcode\BarcodeGeneratorPNG();
+        $barangs = [];
+        foreach ($barangsData as $barang) {
+            $item = $barang->toArray();
+            try {
+                $item['barcode'] = base64_encode($generator->getBarcode((string) $barang->id_barang, $generator::TYPE_CODE_128, 1.5, 30));
+            } catch (\Exception $e) {
+                $item['barcode'] = '';
+            }
+            $barangs[] = $item;
+        }
 
         $offset     = ($request->koordinat_y - 1) * 5 + ($request->koordinat_x - 1);
         $semuaLabel = array_merge(array_fill(0, $offset, null), $barangs);

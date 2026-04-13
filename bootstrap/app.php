@@ -12,6 +12,9 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->redirectTo('/login');
+        $middleware->validateCsrfTokens(except: [
+            'webhook/midtrans',
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //

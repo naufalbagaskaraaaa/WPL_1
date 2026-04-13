@@ -82,3 +82,29 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/api/barang/{id_barang}', [PosController::class, 'cariBarang'])->name('api.barang.get');
     Route::post('/api/penjualan', [PosController::class, 'simpanTransaksi'])->name('api.penjualan.store');
 });
+
+use App\Http\Controllers\CustomerController;
+Route::get('/customer', [CustomerController::class, 'index'])->name('customer.index');
+Route::get('/customer/menu/{idvendor}', [CustomerController::class, 'cariMenu'])->name('customer.cari-menu');
+Route::post('/customer/simpan', [CustomerController::class, 'simpanPesanan'])->name('customer.simpan');
+Route::get('/customer/sukses/{order_id}', [CustomerController::class, 'pembayaranSukses'])->name('customer.sukses');
+Route::post('/webhook/midtrans', [CustomerController::class, 'notifikasi'])->name('webhook.midtrans');
+
+use App\Http\Controllers\VendorController;
+Route::prefix('vendor')->name('vendor.')->group(function () {
+    Route::get('/', [VendorController::class, 'index'])->name('index');
+    Route::get('/{idvendor}/menu', [VendorController::class, 'menu'])->name('menu');
+    Route::post('/{idvendor}/menu/tambah', [VendorController::class, 'tambahMenu'])->name('menu.tambah');
+    Route::post('/{idvendor}/menu/{idmenu}/update', [VendorController::class, 'updateMenu'])->name('menu.update');
+    Route::delete('/{idvendor}/menu/{idmenu}/hapus', [VendorController::class, 'hapusMenu'])->name('menu.hapus');
+    Route::get('/{idvendor}/pesanan', [VendorController::class, 'pesananLunas'])->name('pesanan');
+});
+
+use App\Http\Controllers\PelangganController;
+Route::prefix('pelanggan')->name('pelanggan.')->group(function () {
+    Route::get('/', [PelangganController::class, 'index'])->name('index');
+    Route::get('/tambah-blob', [PelangganController::class, 'createBlob'])->name('create_blob');
+    Route::post('/simpan-blob', [PelangganController::class, 'storeBlob'])->name('store_blob');
+    Route::get('/tambah-file', [PelangganController::class, 'createFile'])->name('create_file');
+    Route::post('/simpan-file', [PelangganController::class, 'storeFile'])->name('store_file');
+});

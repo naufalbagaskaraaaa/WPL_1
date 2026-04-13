@@ -75,7 +75,10 @@
     <div class="halaman">
         <table class="grid-label">
 
-            <?php $baris = array_chunk($labels, 5); ?>
+            <?php 
+            /** @var array $labels */
+            $baris = array_chunk($labels, 5); 
+            ?>
 
             @foreach($baris as $row)
             <tr>
@@ -87,8 +90,13 @@
                     </td>
                     @else
                     <td class="label-isi">
-                        <div class="label-nama">{{ $label['nama'] }}</div>
-                        <div class="label-id">{{ $label['id_barang'] }}</div>
+                        <div class="label-nama">{{ $label['nama'] }}</div>                        
+                        @if(!empty($label['barcode']))
+                        <div style="margin: 2px 0;">
+                            <img src="data:image/png;base64,{{ $label['barcode'] }}" alt="barcode" style="height: 15px;">
+                        </div>
+                        @endif
+                                                <div class="label-id">{{ $label['id_barang'] }}</div>
                         <div class="label-harga">
                             <span class="label-rp">Rp </span>
                             {{ number_format($label['harga'], 0, ',', '.') }}
