@@ -11,6 +11,7 @@ use App\Http\Controllers\Auth\OtpController;
 use App\Http\Controllers\BarangController;
 use App\Http\Controllers\WilayahController;
 use App\Http\Controllers\PosController;
+use App\Http\Controllers\BarcodeController;
 
 Route::redirect('/', '/login');
 
@@ -81,6 +82,10 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/pos/axios', [PosController::class, 'indexAxios'])->name('pos.axios');
     Route::get('/api/barang/{id_barang}', [PosController::class, 'cariBarang'])->name('api.barang.get');
     Route::post('/api/penjualan', [PosController::class, 'simpanTransaksi'])->name('api.penjualan.store');
+
+    // Barcode Scanner Routes
+    Route::get('/barcode', [BarcodeController::class, 'index'])->name('barcode.index');
+    Route::get('/barcode/cari/{id_barang}', [BarcodeController::class, 'cariBarang'])->name('barcode.cari');
 });
 
 use App\Http\Controllers\CustomerController;
