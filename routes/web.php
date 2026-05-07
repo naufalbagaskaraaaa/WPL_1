@@ -24,6 +24,9 @@ Auth::routes();
 Route::get('/auth/google', [GoogleController::class, 'redirectToGoogle'])->name('google.login');
 Route::get('/auth/google/callback', [GoogleController::class, 'handleGoogleCallback']);
 
+Route::get('auth/verify-otp', [OtpController::class, 'showVerifyForm'])->name('otp.verify');
+Route::post('auth/verify-otp', [OtpController::class, 'verifyOtp'])->name('otp.process');
+
 Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', function () {
         return view('dashboard');
@@ -41,9 +44,6 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/generate-pdf', [PdfController::class, 'generatePDFLandscape'])->name('generate.pdf.landscape');
     Route::get('/generate-undangan', [PdfController::class, 'generatePDFPortrait'])->name('generate.pdf.portrait');
-
-    Route::get('auth/verify-otp', [OtpController::class, 'showVerifyForm'])->name('otp.verify');
-    Route::post('auth/verify-otp', [OtpController::class, 'verifyOtp'])->name('otp.process');
 
     Route::get('barang/cetak', function () {
         return redirect()->route('barang.index');
