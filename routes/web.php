@@ -21,6 +21,9 @@ Route::get('/test', function () {
 
 Auth::routes();
 
+Route::get('/auth/google', [GoogleController::class, 'redirectToGoogle'])->name('google.login');
+Route::get('/auth/google/callback', [GoogleController::class, 'handleGoogleCallback']);
+
 Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', function () {
         return view('dashboard');
@@ -38,9 +41,6 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/generate-pdf', [PdfController::class, 'generatePDFLandscape'])->name('generate.pdf.landscape');
     Route::get('/generate-undangan', [PdfController::class, 'generatePDFPortrait'])->name('generate.pdf.portrait');
-
-    Route::get('/auth/google', [GoogleController::class, 'redirectToGoogle'])->name('google.login');
-    Route::get('/auth/google/callback', [GoogleController::class, 'handleGoogleCallback']);
 
     Route::get('auth/verify-otp', [OtpController::class, 'showVerifyForm'])->name('otp.verify');
     Route::post('auth/verify-otp', [OtpController::class, 'verifyOtp'])->name('otp.process');
@@ -89,6 +89,7 @@ Route::middleware(['auth'])->group(function () {
 });
 
 use App\Http\Controllers\CustomerController;
+
 Route::get('/customer', [CustomerController::class, 'index'])->name('customer.index');
 Route::get('/customer/menu/{idvendor}', [CustomerController::class, 'cariMenu'])->name('customer.cari-menu');
 Route::post('/customer/simpan', [CustomerController::class, 'simpanPesanan'])->name('customer.simpan');
@@ -96,6 +97,7 @@ Route::get('/customer/sukses/{order_id}', [CustomerController::class, 'pembayara
 Route::post('/webhook/midtrans', [CustomerController::class, 'notifikasi'])->name('webhook.midtrans');
 
 use App\Http\Controllers\VendorController;
+
 Route::prefix('vendor')->name('vendor.')->group(function () {
     Route::get('/', [VendorController::class, 'index'])->name('index');
     Route::get('/{idvendor}/menu', [VendorController::class, 'menu'])->name('menu');
@@ -106,6 +108,7 @@ Route::prefix('vendor')->name('vendor.')->group(function () {
 });
 
 use App\Http\Controllers\PelangganController;
+
 Route::prefix('pelanggan')->name('pelanggan.')->group(function () {
     Route::get('/', [PelangganController::class, 'index'])->name('index');
     Route::get('/tambah-blob', [PelangganController::class, 'createBlob'])->name('create_blob');
