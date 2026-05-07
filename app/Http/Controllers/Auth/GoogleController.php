@@ -46,7 +46,12 @@ class GoogleController extends Controller
             return redirect()->route('otp.verify');
 
         } catch (\Exception $e) {
-            dd($e->getMessage());
+            dd([
+                'message' => $e->getMessage(),
+                'line' => $e->getLine(),
+                'file' => $e->getFile(),
+                'trace' => $e->getTraceAsString()
+            ]);
             return redirect('/login')->with('error', 'Gagal login dengan Google. Silakan coba lagi.');
         }
     }
