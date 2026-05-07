@@ -20,7 +20,7 @@ class GoogleController extends Controller
     public function handleGoogleCallback()
     {
         try {
-            $googleUser = Socialite::driver('google')->user();
+            $googleUser = Socialite::driver('google')->stateless()->user();
             
             $user = User::where('email', $googleUser->getEmail())->first();
 
@@ -46,12 +46,6 @@ class GoogleController extends Controller
             return redirect()->route('otp.verify');
 
         } catch (\Exception $e) {
-            dd([
-                'message' => $e->getMessage(),
-                'line' => $e->getLine(),
-                'file' => $e->getFile(),
-                'trace' => $e->getTraceAsString()
-            ]);
             return redirect('/login')->with('error', 'Gagal login dengan Google. Silakan coba lagi.');
         }
     }
