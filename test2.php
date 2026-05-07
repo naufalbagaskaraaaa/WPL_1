@@ -1,1 +1,0 @@
-<?php require "vendor/autoload.php"; \Midtrans\Config::$serverKey="SB-Mid-server-Tt_C2KgNp7wGxBXpjUE8SRfY"; \Midtrans\Config::$isProduction=false; try{ $t=["transaction_details"=>["order_id"=>uniqid(),"gross_amount"=>1]]; echo \Midtrans\Snap::getSnapToken($t); } catch(Exception $e){ echo "ERROR: " . $e->getMessage(); }

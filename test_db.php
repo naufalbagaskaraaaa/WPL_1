@@ -1,1 +1,0 @@
-<?php try { \ = new PDO('pgsql:host=127.0.0.1;port=5432', 'postgres', ''); echo 'Success Postgres No Pass'; } catch (PDOException \) { echo 'Postgres Error: ' . \->getMessage(); } try { \ = new PDO('mysql:host=127.0.0.1;port=3306', 'root', ''); echo '\nSuccess MySQL No Pass'; } catch (PDOException \) { echo '\nMySQL Error: ' . \->getMessage(); }

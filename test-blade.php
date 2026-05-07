@@ -1,1 +1,0 @@
-<?php require "vendor/autoload.php"; $app = require "bootstrap/app.php"; $kernel = $app->make(Illuminate\Contracts\Console\Kernel::class); $kernel->bootstrap(); var_dump(env("MIDTRANS_IS_PRODUCTION")); echo env("MIDTRANS_IS_PRODUCTION") ? "PROD" : "SANDBOX";
