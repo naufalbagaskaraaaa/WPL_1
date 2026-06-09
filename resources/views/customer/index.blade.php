@@ -18,7 +18,10 @@
 <body class="bg-light">
 
     <div class="container py-5">
-        <h2 class="mb-4 text-center">Pemesanan Toko Buku</h2>
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 class="mb-0">Pemesanan Toko Buku</h2>
+            <a href="{{ route('customer.riwayat') }}" class="btn btn-outline-primary">Lihat Riwayat Pesanan</a>
+        </div>
 
         <div class="row mb-4">
             <div class="col-md-12">

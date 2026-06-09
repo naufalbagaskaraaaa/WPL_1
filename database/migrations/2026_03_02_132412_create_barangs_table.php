@@ -13,7 +13,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('barang', function (Blueprint $table) {
-            $table->string('id_barang', 8)->primary();
+            $table->string('id_barang', 25)->primary();
             $table->string('nama', 50);
             $table->integer('harga');
             $table->timestamp('timestamp');
@@ -34,12 +34,14 @@ return new class extends Migration
 
                 nr := nr + 1;
 
-                -- Format ID: YY + MM + DD + urutan (2 digit)
-                -- Contoh: 25030201 = tahun 25, bulan 03, tgl 02, urutan ke-1
-                id_baru := RIGHT(EXTRACT(YEAR FROM CURRENT_TIMESTAMP)::TEXT, 2) ||
+                -- Format ID (Min 20 karakter untuk Barcode 1D / Code 128)
+                -- Contoh: BARANG-20260302-000001 (22 karakter)
+                id_baru := 'BARANG-' ||
+                           EXTRACT(YEAR FROM CURRENT_TIMESTAMP)::TEXT ||
                            LPAD(EXTRACT(MONTH FROM CURRENT_TIMESTAMP)::TEXT, 2, '0') ||
                            LPAD(EXTRACT(DAY FROM CURRENT_TIMESTAMP)::TEXT, 2, '0') ||
-                           LPAD(nr::TEXT, 2, '0');
+                           '-' ||
+                           LPAD(nr::TEXT, 6, '0');
 
                 NEW.id_barang := id_baru;
                 RETURN NEW;

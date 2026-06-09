@@ -123,4 +123,60 @@ class VendorController extends Controller
 
         return view('vendor.pesanan', compact('vendor', 'pesanans'));
     }
+
+    // 7. Halaman scanner barcode pesanan (QR)
+    public function scanQr($idvendor)
+    {
+        $vendor = Vendor::findOrFail($idvendor);
+        return view('vendor.scan', compact('vendor'));
+    }
+
+    // 8. Proses cek QR (AJAX)
+    public function checkQr(Request $request, $idvendor)
+    {
+        $qrData = $request->qr_data;
+        
+        // Asumsi dataQR berisi text dengan format:
+        // ID Pesanan: ORD-1718000000-1\n...
+        
+        $order_id = null;
+        if (preg_match('/ID Pesanan:\s*([^\s]+)/', $qrData, $matches)) {
+            $order_id = $matches[1];
+        } else {
+            return response()->json(['status' => 'error', 'message' => 'Format QR tidak valid'], 400);
+        }
+
+        $pesanan = Pesanan::where('transaction_id', $order_id)
+            ->with(['detailPesanan' => function ($query) use ($idvendor) {
+                $query->whereHas('menu', function ($q) use ($idvendor) {
+                    $q->where('vendor_id', $idvendor);
+                })->with('menu');
+            }])
+            ->first();
+
+        if (!$pesanan) {
+            return response()->json(['status' => 'error', 'message' => 'Pesanan tidak ditemukan'], 404);
+        }
+
+        // Cek apakah ada pesanan untuk vendor terkait
+        if ($pesanan->detailPesanan->isEmpty()) {
+            return response()->json(['status' => 'error', 'message' => 'Pesanan ini tidak ditujukan untuk toko Anda'], 404);
+        }
+
+        $listPesanan = $pesanan->detailPesanan->map(function ($detail) {
+            return $detail->menu->nama_menu . ' ('.$detail->jumlah.'x) - Catatan: ' . ($detail->catatan ?: '-');
+        });
+
+        $statusBayarText = $pesanan->status_bayar == '1' ? 'LUNAS' : ($pesanan->status_bayar == '0' ? 'BELUM BAYAR' : 'BATAL');
+
+        return response()->json([
+            'status' => 'success',
+            'data' => [
+                'order_id' => $pesanan->transaction_id,
+                'customer' => $pesanan->nama_customer,
+                'status_bayar' => $statusBayarText,
+                'items' => $listPesanan
+            ]
+        ]);
+    }
 }

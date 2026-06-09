@@ -15,8 +15,9 @@
                     <div class="card-body">
                         <h5 class="card-title">{{ $v->nama_vendor }}</h5>
                         <hr>
-                        <a href="{{ route('vendor.menu', $v->id) }}" class="btn btn-primary btn-sm">Kelola Menu</a>
-                        <a href="{{ route('vendor.pesanan', $v->id) }}" class="btn btn-success btn-sm">Lihat Pesanan</a>
+                        <a href="{{ route('vendor.menu', $v->id) }}" class="btn btn-primary btn-sm mb-1">Kelola Menu</a>
+                        <a href="{{ route('vendor.pesanan', $v->id) }}" class="btn btn-success btn-sm mb-1">Lihat Pesanan</a>
+                        <a href="{{ route('vendor.scan', $v->id) }}" class="btn btn-warning btn-sm mb-1">Scan QR Customer</a>
                     </div>
                 </div>
             </div>

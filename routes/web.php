@@ -91,6 +91,7 @@ Route::middleware(['auth'])->group(function () {
 use App\Http\Controllers\CustomerController;
 
 Route::get('/customer', [CustomerController::class, 'index'])->name('customer.index');
+Route::get('/customer/riwayat', [CustomerController::class, 'riwayat'])->name('customer.riwayat');
 Route::get('/customer/menu/{idvendor}', [CustomerController::class, 'cariMenu'])->name('customer.cari-menu');
 Route::post('/customer/simpan', [CustomerController::class, 'simpanPesanan'])->name('customer.simpan');
 Route::get('/customer/sukses/{order_id}', [CustomerController::class, 'pembayaranSukses'])->name('customer.sukses');
@@ -105,6 +106,8 @@ Route::prefix('vendor')->name('vendor.')->group(function () {
     Route::post('/{idvendor}/menu/{idmenu}/update', [VendorController::class, 'updateMenu'])->name('menu.update');
     Route::delete('/{idvendor}/menu/{idmenu}/hapus', [VendorController::class, 'hapusMenu'])->name('menu.hapus');
     Route::get('/{idvendor}/pesanan', [VendorController::class, 'pesananLunas'])->name('pesanan');
+    Route::get('/{idvendor}/scan', [VendorController::class, 'scanQr'])->name('scan');
+    Route::post('/{idvendor}/scan/check', [VendorController::class, 'checkQr'])->name('scan.check');
 });
 
 use App\Http\Controllers\PelangganController;

@@ -180,4 +180,32 @@ class CustomerController extends Controller
 
         return view("customer.sukses", compact("pesanan", "qrBase64"));
     }
+
+    public function riwayat()
+    {
+        // Tampilkan seluruh daftar pesanan yang berstatus bayar 1 (Lunas)
+        $pesanans = Pesanan::where('status_bayar', '1')->orderBy('id', 'desc')->get();
+        
+        $pesanans->transform(function($pesanan) {
+            $dataQr = "ID Pesanan: " . $pesanan->transaction_id . "\n" .
+                "Total Pembayaran: Rp" . number_format($pesanan->total, 0, ",", ".") . "\n" .
+                "Nama Pelanggan: " . $pesanan->nama_customer;
+
+            $qrCode = new QrCode(
+                data: $dataQr,
+                encoding: new Encoding("UTF-8"),
+                errorCorrectionLevel: ErrorCorrectionLevel::High,
+                size: 200,
+                margin: 10
+            );
+
+            $writer = new PngWriter();
+            $result = $writer->write($qrCode);
+            $pesanan->qrBase64 = base64_encode($result->getString());
+
+            return $pesanan;
+        });
+
+        return view('customer.riwayat', compact('pesanans'));
+    }
 }
